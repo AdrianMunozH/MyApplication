@@ -9,8 +9,7 @@
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="540dp"
-        android:layout_height="230dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="240dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
@@ -23,7 +22,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/tV7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="3"
@@ -71,7 +70,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tV9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="2"
@@ -120,7 +119,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/tV11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="2"
@@ -168,7 +167,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/tV13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="2"
@@ -216,42 +215,42 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/tV14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="2"
                 android:text="14:50" />
 
             <EditText
-                android:id="@+id/r4c1"
+                android:id="@+id/r5c1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/r4c2"
+                android:id="@+id/r5c2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/r4c3"
+                android:id="@+id/r5c3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/r4c4"
+                android:id="@+id/r5c4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/r4c5"
+                android:id="@+id/r5c5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
@@ -264,7 +263,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp"
         android:layout_marginTop="8dp"
         android:text="Speichern"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -284,7 +283,7 @@
         app:layout_constraintHorizontal_bias="0.37"
         app:layout_constraintLeft_toRightOf="@+id/button"
         app:layout_constraintRight_toLeftOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" android:layout_marginStart="64dp" android:layout_marginEnd="8dp" />
 
     <Button
         android:id="@+id/button5"
@@ -296,6 +295,6 @@
         android:text="Menü"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" android:layout_marginEnd="59dp" />
 
 </android.support.constraint.ConstraintLayout>
