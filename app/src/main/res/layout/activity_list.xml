@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="581dp"
+        android:layout_height="296dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/r1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/fileName"
+                android:layout_width="334dp"
+                android:layout_height="30dp"
+                android:text="Schedule"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/authorName"
+                android:layout_width="246dp"
+                android:layout_height="30dp"
+                android:text="Created by"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/schedule1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="WiSe17"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/author1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="John"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/schedule2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="SoSe16"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/author2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Jack"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/schedule3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="WiSe17"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/author3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="John"
+                android:textSize="18sp" />
+        </TableRow>
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>
