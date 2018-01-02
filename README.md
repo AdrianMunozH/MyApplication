@@ -2,8 +2,9 @@ EMI Projekt
 ===========
 
 - [X] Dynamisches Hinzufügen von Zeilen
+- [X] App-Bar (Buttons für Settings und Share)
+- [X] Eingabe von Stundenzeiten
 - [ ] Speichern-Funktion
-- [ ] Automatisches Speichern, wenn Nutzer Stunde eingetragen hat
-- [ ] App-Bar (Buttons für Settings und Share)
-- [ ] Eingabe von Stundenzeiten
-- [ ] Objektorientierte Struktur (Klassen für Stundenplan und einzelne Einträge)
+- [ ] Stundenpläne über Whatsapp als Json-file teilen
+- [ ] andere Stundenpläne in der App öffnen und in der ListActivity anzeigen
+- [ ] in der ListActivity dargestellte Stundenpläne in MainActivity zeigen
