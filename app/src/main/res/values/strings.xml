@@ -1,3 +1,30 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">My Timetable</string>
+    <string name="schedule_settings">Settings</string>
+    <string name="list">All Timetables</string>
+    <string name="my_schedule">My Timetable</string>
+    <string name="share">Share</string>
+    <string name="save">Save</string>
+
+
+    <string name="setting1">An meinem längsten Tag studiere ich...</string>
+    <string name="setting2">von</string>
+    <string name="setting3">bis</string>
+    <string name="setting4">Jede Stunde dauert...</string>
+    <string name="setting5">Minuten</string>
+    <string name="setting6">Jede Pause dauert...</string>
+    <string name="setting7">Minuten</string>
+    <string name="setting8">Die erste Stunde beginnt um...</string>
+    <string name="applyBtn">Apply</string>
+
+    <string name="fileName">Timetable name</string>
+    <string name="authorName">Created by</string>
+    <string name="schedule1">WiSe17</string>
+    <string name="author1">Jack</string>
+    <string name="schedule2">SoSe17</string>
+    <string name="author2">Ken</string>
+    <string name="schedule3">WiSe16</string>
+    <string name="author3">Mandy</string>
+
+
 </resources>

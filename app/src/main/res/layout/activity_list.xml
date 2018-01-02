@@ -6,13 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <TableLayout
         android:layout_width="581dp"
         android:layout_height="296dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="54dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +31,13 @@
         <TableRow
             android:id="@+id/r1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/fileName"
                 android:layout_width="334dp"
                 android:layout_height="30dp"
-                android:text="Schedule"
+                android:text="@string/fileName"
                 android:textColor="@android:color/background_dark"
                 android:textSize="18sp" />
 
@@ -35,7 +45,7 @@
                 android:id="@+id/authorName"
                 android:layout_width="246dp"
                 android:layout_height="30dp"
-                android:text="Created by"
+                android:text="@string/authorName"
                 android:textColor="@android:color/background_dark"
                 android:textSize="18sp" />
         </TableRow>
@@ -43,20 +53,20 @@
         <TableRow
             android:id="@+id/r2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/schedule1"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="WiSe17"
+                android:text="@string/schedule1"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/author1"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="John"
+                android:text="@string/author1"
                 android:textSize="18sp" />
 
         </TableRow>
@@ -64,42 +74,43 @@
         <TableRow
             android:id="@+id/r3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/schedule2"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="SoSe16"
+                android:text="@string/schedule2"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/author2"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Jack"
+                android:text="@string/author2"
                 android:textSize="18sp" />
         </TableRow>
 
         <TableRow
             android:id="@+id/r4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/schedule3"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="WiSe17"
+                android:text="@string/schedule3"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/author3"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="John"
+                android:text="@string/author3"
                 android:textSize="18sp" />
         </TableRow>
     </TableLayout>
+
 
 </android.support.constraint.ConstraintLayout>
