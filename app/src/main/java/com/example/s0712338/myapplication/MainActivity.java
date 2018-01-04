@@ -1,37 +1,21 @@
 package com.example.s0712338.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    public TableLayout timetableLayout;
+    private Timetable timetable = null;
 
     public String[] lessonTimes = new String[10];
     public Integer[] lessonHours = new Integer[10];
@@ -44,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("DEBUG", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        timetableLayout = findViewById(R.id.tableLayout);
+
+        timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout), this.saveFile);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -65,15 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (saveIntent.getExtras() != null) {
             settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
-
         }
 
         initButtons();
 
         initLessonTimes();
 
-        buildTimetableLayout();
-
+        timetable.buildTimetableLayout();
+        timetable.loadTimetable();
     }
 
     @Override
@@ -84,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i("Debug", "onOptionsItemSelected");
         switch (item.getItemId()) {
 
             case R.id.my_schedule:
@@ -100,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
             // save function here instead of button
             case R.id.save:
-                this.saveTimetable();
+                this.timetable.save();
                 return true;
 
             // add share function - click button, share josn file in whatsapp
             case R.id.share:
-                this.saveTimetable();
+                this.timetable.save();
                 return true;
 
 
@@ -115,22 +101,25 @@ public class MainActivity extends AppCompatActivity {
 
     // delete buttons (move to appbar), menuButton - was ist Printtimetable ???
     public void initButtons() {
+        Log.i("Debug", "initButtons");
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTimetable();
+                timetable.save();
             }
         });
 
         findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printTimetable();
+                timetable.print();
             }
         });
     }
 
     public void initLessonTimes() {
+
+        Log.i("Debug", "in initlessongtimes");
 
         lessonHours[0] = settingsHashMap.get("startHour");
         lessonMins[0] = settingsHashMap.get("startMin");
@@ -147,105 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
             lessonTimes[i] = lessonHours[i].toString() + ":" + lessonMins[i].toString();
         }
-    }
-
-
-    public void buildTimetableLayout() {
-        for (int i = 1; i <= settingsHashMap.get("lastClass"); i++) {
-            TableRow newRow = new TableRow(this);
-
-            TextView newTextView = new TextView(this);
-            newTextView.setText(lessonTimes[i - 1]);
-            newRow.addView(newTextView);
-
-            for (int j = 1; j <= settingsHashMap.get("lastClass"); j++) {
-                EditText newEditText = new EditText(this);
-                newRow.addView(newEditText);
-
-                newEditText.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-                newEditText.setGravity(Gravity.CENTER_HORIZONTAL);
-            }
-
-            timetableLayout.addView(newRow);
-
-            TableLayout.LayoutParams params = (TableLayout.LayoutParams) newRow.getLayoutParams();
-            params.leftMargin = 30;
-            params.rightMargin = 30;
-            newRow.setLayoutParams(params);
-
-            if (i % 2 == 0) {
-                newRow.setBackgroundColor(Color.LTGRAY);
-            }
-        }
-    }
-
-    public JSONArray timetableToJson() {
-        JSONArray timetable = new JSONArray();
-
-        for (int i = 0; i < timetableLayout.getChildCount(); i++) {
-            View child = timetableLayout.getChildAt(i);
-            JSONArray timetableRow = new JSONArray();
-
-            if (child instanceof TableRow) {
-                TableRow row = (TableRow) child;
-
-                for (int j = 1; j < row.getChildCount(); j++) {
-                    EditText cell = (EditText) row.getChildAt(j);
-                    timetableRow.put(cell.getText().toString());
-                }
-            }
-            timetable.put(timetableRow);
-        }
-        return timetable;
-    }
-
-
-    public void saveTimetable() {
-        Log.i("Save", "Save process started");
-        try {
-            FileOutputStream fos = openFileOutput(saveFile, Context.MODE_PRIVATE);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
-
-            JSONArray timetable = timetableToJson();
-
-            Log.i("SAVE", timetable.toString(4));
-            osw.write(timetable.toString());
-            osw.close();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String loadTimetableFromFile() {
-        FileInputStream fis;
-        StringBuilder sb = new StringBuilder();
-        try {
-            fis = openFileInput(saveFile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append('\n');
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
-
-    public void printTimetable() {
-        try {
-            String timetableString = loadTimetableFromFile();
-
-            JSONArray timetable = new JSONArray(timetableString);
-            for (int i = 0; i < timetable.length(); i++) {
-                JSONArray row = timetable.getJSONArray(i);
-                Log.i("SAVE", row.toString());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void startListActivity() {
