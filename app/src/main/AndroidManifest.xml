@@ -16,14 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:label="Settings"
-            android:name=".SettingsActivity">
-        </activity>
-
-        <activity android:label="All Timetables"
-        android:name=".ListActivity">
-    </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"></activity>
+        <activity
+            android:name=".ListActivity"
+            android:label="All Timetables"></activity>
+        <activity android:name=".ClassActivity"></activity>
     </application>
 
 </manifest>

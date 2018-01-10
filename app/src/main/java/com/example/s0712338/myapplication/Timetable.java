@@ -1,6 +1,7 @@
 package com.example.s0712338.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,8 +35,7 @@ public class Timetable {
     public Context context;
     public int timetableRowCount;
     public int backgroundColor;
-
-
+    public String[] day ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
     public Timetable(Context context, TableLayout timetableLayout, String saveFile) {
         this.context = context;
         this.timetableLayout = timetableLayout;
@@ -48,25 +48,29 @@ public class Timetable {
     }
 
 
-    public void buildTimetableLayout() {
-        for ( int i = 1; i <= 5; i++ ) {
+    public void buildTimetableLayout(int tC,String[] lessonTimes2) {
+        for ( int i = 1; i <= (tC); i++ ) {
             TableRow newRow = new TableRow(context);
 
             // Add lesson time to row
             TextView newTextView = new TextView(context);
             newTextView.setPadding(20, 5, 20, 5);
-            newTextView.setText(lessonTimes[i - 1]);
+            if(i>1)newTextView.setText(lessonTimes2[i-1]);
             newRow.addView(newTextView);
-
             // Add edit text widgets for lessons to row
-            for (int j = 1; j <= this.timetableRowCount; j++) {
-                EditText newEditText = new EditText(context);
-                newRow.addView(newEditText);
-
-                newEditText.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-                newEditText.setGravity(Gravity.CENTER_HORIZONTAL);
+            for (int j = 1; j <= 5; j++) {
+                if (i == 1) {
+                    TextView newTextView2 = new TextView(context);
+                    newTextView2.setPadding(20, 5, 20, 5);
+                    newTextView2.setText(day[j-1]);
+                    newRow.addView(newTextView2);
+                } else {
+                    EditText newTextEdit = new EditText(context);
+                    newRow.addView(newTextEdit);
+                    newTextEdit.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+                    newTextEdit.setGravity(Gravity.CENTER_HORIZONTAL);
+                }
             }
-
             timetableLayout.addView(newRow);
             rows.add(newRow);
 
@@ -95,7 +99,7 @@ public class Timetable {
                 TableRow row = (TableRow) child;
 
                 for (int j = 1; j < row.getChildCount(); j++) {
-                    EditText cell = (EditText) row.getChildAt(j);
+                    TextView cell = (TextView) row.getChildAt(j);
                     timetableRow.put(cell.getText().toString());
                 }
             }

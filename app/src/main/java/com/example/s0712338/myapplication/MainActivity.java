@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -22,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     public Integer[] lessonMins = new Integer[10];
 
     public String saveFile = "timetable.json";
-
 
     HashMap<String, Integer> settingsHashMap = new HashMap<String, Integer>();
 
@@ -42,23 +44,24 @@ public class MainActivity extends AppCompatActivity {
         if (saveIntent.getExtras() == null) {
 
             settingsHashMap.put("firstClass", 1);
-            settingsHashMap.put("lastClass", 2);
+            settingsHashMap.put("lastClass", 5);
             settingsHashMap.put("length", 90);
             settingsHashMap.put("break", 20);
             settingsHashMap.put("startHour", 9);
             settingsHashMap.put("startMin", 20);
-        }
+        } else settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
 
-        if (saveIntent.getExtras() != null) {
-            settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
-        }
 
-        initButtons();
+        //initButtons();
 
         initLessonTimes();
+        if(settingsHashMap.get("lastClass") != 0){
+            timetable.buildTimetableLayout(settingsHashMap.get("lastClass"), lessonTimes);
+        } else {
+            timetable.buildTimetableLayout(3, lessonTimes);
+        }
 
-        timetable.buildTimetableLayout();
-        timetable.loadTimetable();
+
     }
 
     @Override
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         return (super.onOptionsItemSelected(item));
     }
 
-    // delete buttons (move to appbar), menuButton - was ist Printtimetable ???
+    /* delete buttons (move to appbar), menuButton - was ist Printtimetable ???
     public void initButtons() {
         Log.i("Debug", "initButtons");
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 timetable.print();
             }
         });
-    }
+    } */
 
     public void initLessonTimes() {
 
@@ -154,5 +157,19 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("HashMap", settingsHashMap);
         this.startActivity(i);
+    }
+    public void startLessonActivity( View view) {
+        Intent intent = new Intent(this, LessonActivity.class);
+        intent.putExtra("lesson", "text");
+        this.startActivity(intent);
+    }
+
+    public void initTV(TextView textViewLesson) {
+        textViewLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startLessonActivity(view);
+            }
+        });
     }
 }
