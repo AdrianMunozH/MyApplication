@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/EMI-Projekt.iml" filepath="$PROJECT_DIR$/EMI-Projekt.iml" />
       <module fileurl="file://C:\Users\analitik2\Desktop\Git\EMI-Projekt.iml" filepath="C:\Users\analitik2\Desktop\Git\EMI-Projekt.iml" />
       <module fileurl="file://C:\Users\adria\AndroidStudioProjects\MyApplication\Git.iml" filepath="C:\Users\adria\AndroidStudioProjects\MyApplication\Git.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />

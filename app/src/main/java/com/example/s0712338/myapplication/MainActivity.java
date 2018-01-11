@@ -11,8 +11,7 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String saveFile = "timetable.json";
 
-    HashMap<String, Integer> settingsHashMap = new HashMap<String, Integer>();
+    HashMap<String, Integer> settingsHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,26 +41,25 @@ public class MainActivity extends AppCompatActivity {
         Intent saveIntent = getIntent();
 
         if (saveIntent.getExtras() == null) {
-
             settingsHashMap.put("firstClass", 1);
             settingsHashMap.put("lastClass", 5);
             settingsHashMap.put("length", 90);
             settingsHashMap.put("break", 20);
-            settingsHashMap.put("startHour", 9);
-            settingsHashMap.put("startMin", 20);
-        } else settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
-
+            settingsHashMap.put("startHour", 7);
+            settingsHashMap.put("startMin", 30);
+        } else {
+            settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
+        }
 
         //initButtons();
 
         initLessonTimes();
         if(settingsHashMap.get("lastClass") != 0){
+            Log.d("onCreate", Integer.toString(settingsHashMap.get("lastClass")));
             timetable.buildTimetableLayout(settingsHashMap.get("lastClass"), lessonTimes);
         } else {
             timetable.buildTimetableLayout(3, lessonTimes);
         }
-
-
     }
 
     @Override
@@ -96,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.share:
                 this.timetable.save();
                 return true;
-
-
         }
         return (super.onOptionsItemSelected(item));
     }
@@ -158,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("HashMap", settingsHashMap);
         this.startActivity(i);
     }
+
     public void startLessonActivity( View view) {
         // Intent intent = new Intent(this, LessonActivity.class);
         // intent.putExtra("lesson", "text");

@@ -22,7 +22,6 @@ public class SettingsActivity extends AppCompatActivity {
     private TimePicker mTimePicker;
     private Button btnSet;
 
-
     HashMap<String, Integer> settingsHashMap = new HashMap<String, Integer>();
 
     @Override
@@ -52,7 +51,6 @@ public class SettingsActivity extends AppCompatActivity {
         mTimePicker.setCurrentMinute(settingsHashMap.get("startMin"));
 
         InitializeActivity();
-
     }
 
     @Override
@@ -62,39 +60,35 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
-        case R.id.my_schedule:
-            startMainActivity();
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.my_schedule:
+                startMainActivity();
+                return true;
 
-        case R.id.schedule_settings:
-            startSettingsActivity();
-            return true;
+            case R.id.schedule_settings:
+                startSettingsActivity();
+                return true;
 
-        case R.id.list:
-            this.startListActivity();
-            return true;
-        // add other tools
-    }
+            case R.id.list:
+                this.startListActivity();
+                return true;
+            // add other tools
+        }
         return(super.onOptionsItemSelected(item));
     }
 
-
     private void InitializeActivity() {
-
         btnSet = (Button) findViewById(R.id.btnSettings);
-
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 applySettings();
             }
         });
-
     }
 
     private void applySettings(){
-
         settingsHashMap.put("firstClass",Integer.parseInt(first.getText().toString()));
         settingsHashMap.put("lastClass",Integer.parseInt(last.getText().toString()));
         settingsHashMap.put("length",Integer.parseInt(cLength.getText().toString()));
@@ -105,7 +99,6 @@ public class SettingsActivity extends AppCompatActivity {
         Intent saveIntent = new Intent(this, MainActivity.class);
         saveIntent.putExtra("HashMap", settingsHashMap);
         this.startActivity(saveIntent);
-
     }
 
     private void startListActivity() {
@@ -125,5 +118,4 @@ public class SettingsActivity extends AppCompatActivity {
         i.putExtra("HashMap", settingsHashMap);
         this.startActivity(i);
     }
-
 }

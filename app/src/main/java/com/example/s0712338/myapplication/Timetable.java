@@ -1,7 +1,6 @@
 package com.example.s0712338.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,14 +27,14 @@ import java.util.List;
 public class Timetable {
 
     public TableLayout timetableLayout;
-    List<TableRow> rows;
-    public String[] lessonTimes = new String[10];
+    public List<TableRow> rows;
     public String saveFile;
     public String encoding;
     public Context context;
     public int timetableRowCount;
     public int backgroundColor;
-    public String[] day ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
+    public String[] days ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
+
     public Timetable(Context context, TableLayout timetableLayout, String saveFile) {
         this.context = context;
         this.timetableLayout = timetableLayout;
@@ -47,46 +46,47 @@ public class Timetable {
         this.backgroundColor = Color.LTGRAY;
     }
 
-
-    public void buildTimetableLayout(int tC,String[] lessonTimes2) {
-        for ( int i = 1; i <= (tC); i++ ) {
+    public void buildTimetableLayout(int lastLesson, String[] lessonTimes) {
+        for ( int rowNumber = 0; rowNumber <= (lastLesson); rowNumber++ ) {
             TableRow newRow = new TableRow(context);
 
             // Add lesson time to row
-            TextView newTextView = new TextView(context);
-            newTextView.setPadding(20, 5, 20, 5);
-            if(i>1)newTextView.setText(lessonTimes2[i-1]);
-            newRow.addView(newTextView);
+            TextView lessonTimeTextView = new TextView(context);
+            lessonTimeTextView.setPadding(20, 5, 20, 5);
+            if (rowNumber > 0) {
+                lessonTimeTextView.setText(lessonTimes[rowNumber-1]);
+            }
+            newRow.addView(lessonTimeTextView);
+
             // Add edit text widgets for lessons to row
-            for (int j = 1; j <= 5; j++) {
-                if (i == 1) {
-                    TextView newTextView2 = new TextView(context);
-                    newTextView2.setPadding(20, 5, 20, 5);
-                    newTextView2.setText(day[j-1]);
-                    newRow.addView(newTextView2);
+            for (int columnNumber = 1; columnNumber <= days.length; columnNumber++) {
+                if (rowNumber == 0) {
+                    TextView dayTextView = new TextView(context);
+                    dayTextView.setPadding(20, 5, 20, 5);
+                    dayTextView.setText(days[columnNumber-1]);
+                    newRow.addView(dayTextView);
                 } else {
-                    EditText newTextEdit = new EditText(context);
-                    newRow.addView(newTextEdit);
-                    newTextEdit.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-                    newTextEdit.setGravity(Gravity.CENTER_HORIZONTAL);
+                    EditText lessonTextEdit = new EditText(context);
+                    newRow.addView(lessonTextEdit);
+                    lessonTextEdit.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+                    lessonTextEdit.setGravity(Gravity.CENTER_HORIZONTAL);
                 }
             }
             timetableLayout.addView(newRow);
             rows.add(newRow);
 
             // Set layout params of row
-            TableLayout.LayoutParams params = (TableLayout.LayoutParams) newRow.getLayoutParams();
-            params.leftMargin = 30;
-            params.rightMargin = 30;
-            newRow.setLayoutParams(params);
+            TableLayout.LayoutParams timetableLayoutParams = (TableLayout.LayoutParams) newRow.getLayoutParams();
+            timetableLayoutParams.leftMargin = 30;
+            timetableLayoutParams.rightMargin = 30;
+            newRow.setLayoutParams(timetableLayoutParams);
 
             // set background colour for every second row
-            if ( i % 2 == 0 ) {
+            if ( rowNumber != 0 && rowNumber % 2 == 0 ) {
                 newRow.setBackgroundColor(this.backgroundColor);
             }
         }
     }
-
 
     public JSONArray toJson() {
         JSONArray timetable = new JSONArray();
@@ -108,7 +108,6 @@ public class Timetable {
         return timetable;
     }
 
-
     public void save() {
         Log.i("Save", "Save process started");
         try {
@@ -122,13 +121,10 @@ public class Timetable {
             osw.close();
             Toast.makeText(this.context, "Erfolgreich gespeichert", Toast.LENGTH_LONG).show();
             Log.i("Save", "Save process finished");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
-
 
     public void loadTimetable() {
         String timetableString = this.loadFromFile();
@@ -136,7 +132,6 @@ public class Timetable {
             this.update(timetableString);
         }
     }
-
 
     public void update(String timetableString) {
         try {
@@ -152,12 +147,10 @@ public class Timetable {
                     cell.setText(lesson);
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
 
     public String loadFromFile() {
         FileInputStream fis;
@@ -175,7 +168,6 @@ public class Timetable {
         }
         return sb.toString();
     }
-
 
     public void print() {
         try {

@@ -5,10 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TimePicker;
 
 import java.util.HashMap;
 
@@ -28,7 +24,6 @@ public class ListActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         settingsHashMap = (HashMap<String, Integer>) i.getSerializableExtra("HashMap");
-
     }
 
     @Override
@@ -63,7 +58,6 @@ public class ListActivity extends AppCompatActivity {
     2) open json file with app -> timetable listed in All Timetables
     3) click any timetable in All Timetables -> view in MainActivity
     */
-
 
     private void startListActivity() {
         Intent i = new Intent(this, ListActivity.class);
