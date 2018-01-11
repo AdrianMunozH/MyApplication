@@ -159,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(i);
     }
     public void startLessonActivity( View view) {
-        Intent intent = new Intent(this, LessonActivity.class);
-        intent.putExtra("lesson", "text");
-        this.startActivity(intent);
+        // Intent intent = new Intent(this, LessonActivity.class);
+        // intent.putExtra("lesson", "text");
+        // this.startActivity(intent);
     }
 
     public void initTV(TextView textViewLesson) {
