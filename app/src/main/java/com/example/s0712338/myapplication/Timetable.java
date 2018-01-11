@@ -65,6 +65,8 @@ public class Timetable {
                     dayTextView.setPadding(20, 5, 20, 5);
                     dayTextView.setText(days[columnNumber-1]);
                     newRow.addView(dayTextView);
+                    dayTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+                    dayTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 } else {
                     EditText lessonTextEdit = new EditText(context);
                     newRow.addView(lessonTextEdit);
