@@ -117,15 +117,13 @@ public class MainActivity extends AppCompatActivity {
     } */
 
     public void initLessonTimes() {
-
-        Log.i("Debug", "in initlessongtimes");
+        Log.d("InitLessons", "start calculating");
 
         lessonHours[0] = settingsHashMap.get("startHour");
         lessonMins[0] = settingsHashMap.get("startMin");
         lessonTimes[0] = lessonHours[0].toString() + ":" + lessonMins[0].toString();
 
-        for (int i = 1; i < settingsHashMap.get("lastClass")-1; i++)
-        {
+        for (int i = 1; i < settingsHashMap.get("lastClass"); i++) {
             Integer hDif = ((settingsHashMap.get("length") + settingsHashMap.get("break"))) / 60;
             Integer mDif = ((settingsHashMap.get("length") + settingsHashMap.get("break"))) % 60;
             hDif = (lessonMins[i-1] + mDif >= 60) ? hDif + 1 : hDif;
@@ -133,8 +131,14 @@ public class MainActivity extends AppCompatActivity {
             lessonHours[i]=lessonHours[i-1]+hDif;
             lessonMins[i]=lessonMins[i-1]+mDif;
 
-            lessonTimes[i] = lessonHours[i].toString() + ":" + lessonMins[i].toString();
+            if ( lessonMins[i] < 10 ) {
+                lessonTimes[i] = lessonHours[i].toString() + ":0" + lessonMins[i].toString();
+            } else {
+                lessonTimes[i] = lessonHours[i].toString() + ":" + lessonMins[i].toString();
+            }
         }
+
+        Log.d("InitLessons", Arrays.toString(lessonTimes));
     }
 
     private void startListActivity() {
