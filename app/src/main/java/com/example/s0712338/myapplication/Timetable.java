@@ -36,6 +36,10 @@ public class Timetable {
     public String[] days ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
 
     public Timetable(Context context, TableLayout timetableLayout, String saveFile) {
+    public String[] lessonTimes = new String[10];
+    public Integer[] lessonHours = new Integer[10];
+    public Integer[] lessonMins = new Integer[10];
+
         this.context = context;
         this.timetableLayout = timetableLayout;
         this.saveFile = saveFile;
@@ -169,6 +173,31 @@ public class Timetable {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    public void calculateLessonTimes() {
+        Log.d("InitLessons", "start calculating");
+
+        lessonHours[0] = this.timetableSettings.get("startHour");
+        lessonMins[0] = this.timetableSettings.get("startMin");
+        lessonTimes[0] = lessonHours[0].toString() + ":" + lessonMins[0].toString();
+
+        for (int i = 1; i < this.timetableSettings.get("lastClass"); i++) {
+            Integer hDif = ((this.timetableSettings.get("length") + this.timetableSettings.get("break"))) / 60;
+            Integer mDif = ((this.timetableSettings.get("length") + this.timetableSettings.get("break"))) % 60;
+            hDif = (lessonMins[i-1] + mDif >= 60) ? hDif + 1 : hDif;
+            mDif = (lessonMins[i-1] + mDif >= 60) ? mDif - 60 : mDif;
+            lessonHours[i]=lessonHours[i-1]+hDif;
+            lessonMins[i]=lessonMins[i-1]+mDif;
+
+            if ( lessonMins[i] < 10 ) {
+                lessonTimes[i] = lessonHours[i].toString() + ":0" + lessonMins[i].toString();
+            } else {
+                lessonTimes[i] = lessonHours[i].toString() + ":" + lessonMins[i].toString();
+            }
+        }
+
+        Log.d("InitLessons", Arrays.toString(lessonTimes));
     }
 
     public void print() {

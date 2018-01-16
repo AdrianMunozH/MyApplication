@@ -19,10 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Timetable timetable = null;
 
-    public String[] lessonTimes = new String[10];
-    public Integer[] lessonHours = new Integer[10];
-    public Integer[] lessonMins = new Integer[10];
-
     public String saveFile = "timetable.json";
 
     HashMap<String, Integer> settingsHashMap = new HashMap<>();
@@ -53,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         //initButtons();
 
-        initLessonTimes();
         if(settingsHashMap.get("lastClass") != 0){
             Log.d("onCreate", Integer.toString(settingsHashMap.get("lastClass")));
             timetable.buildTimetableLayout(settingsHashMap.get("lastClass"), lessonTimes);
@@ -115,31 +110,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     } */
-
-    public void initLessonTimes() {
-        Log.d("InitLessons", "start calculating");
-
-        lessonHours[0] = settingsHashMap.get("startHour");
-        lessonMins[0] = settingsHashMap.get("startMin");
-        lessonTimes[0] = lessonHours[0].toString() + ":" + lessonMins[0].toString();
-
-        for (int i = 1; i < settingsHashMap.get("lastClass"); i++) {
-            Integer hDif = ((settingsHashMap.get("length") + settingsHashMap.get("break"))) / 60;
-            Integer mDif = ((settingsHashMap.get("length") + settingsHashMap.get("break"))) % 60;
-            hDif = (lessonMins[i-1] + mDif >= 60) ? hDif + 1 : hDif;
-            mDif = (lessonMins[i-1] + mDif >= 60) ? mDif - 60 : mDif;
-            lessonHours[i]=lessonHours[i-1]+hDif;
-            lessonMins[i]=lessonMins[i-1]+mDif;
-
-            if ( lessonMins[i] < 10 ) {
-                lessonTimes[i] = lessonHours[i].toString() + ":0" + lessonMins[i].toString();
-            } else {
-                lessonTimes[i] = lessonHours[i].toString() + ":" + lessonMins[i].toString();
-            }
-        }
-
-        Log.d("InitLessons", Arrays.toString(lessonTimes));
-    }
 
     private void startListActivity() {
         Intent i = new Intent(this, ListActivity.class);
