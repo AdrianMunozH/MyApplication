@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout), this.saveFile);
+        timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout), this.saveFile, settingsHashMap);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -49,12 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         //initButtons();
 
-        if(settingsHashMap.get("lastClass") != 0){
-            Log.d("onCreate", Integer.toString(settingsHashMap.get("lastClass")));
-            timetable.buildTimetableLayout(settingsHashMap.get("lastClass"), lessonTimes);
-        } else {
-            timetable.buildTimetableLayout(3, lessonTimes);
-        }
+        this.timetable.loadTimetable();
     }
 
     @Override
@@ -87,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             // add share function - click button, share josn file in whatsapp
             case R.id.share:
-                this.timetable.save();
+                this.timetable.loadTimetable();
                 return true;
         }
         return (super.onOptionsItemSelected(item));

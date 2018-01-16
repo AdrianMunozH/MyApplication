@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,7 +23,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class Timetable {
 
@@ -34,31 +39,36 @@ public class Timetable {
     public int timetableRowCount;
     public int backgroundColor;
     public String[] days ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
+    public HashMap<String, Integer> timetableSettings;
 
-    public Timetable(Context context, TableLayout timetableLayout, String saveFile) {
     public String[] lessonTimes = new String[10];
     public Integer[] lessonHours = new Integer[10];
     public Integer[] lessonMins = new Integer[10];
 
+    public Timetable(Context context, TableLayout timetableLayout, String saveFile, HashMap<String, Integer> timetableSettings) {
         this.context = context;
         this.timetableLayout = timetableLayout;
         this.saveFile = saveFile;
         this.rows = new ArrayList<TableRow>();
+        this.timetableSettings = timetableSettings;
 
         this.encoding = "UTF-8";
         this.timetableRowCount = 5;
         this.backgroundColor = Color.LTGRAY;
     }
 
-    public void buildTimetableLayout(int lastLesson, String[] lessonTimes) {
-        for ( int rowNumber = 0; rowNumber <= (lastLesson); rowNumber++ ) {
+    public void buildTimetableLayout() {
+        this.destroyTimetableLayout();
+        this.calculateLessonTimes();
+        // TODO: check if lessonTimes and timetablesettings are set
+        for ( int rowNumber = 0; rowNumber <= this.timetableSettings.get("lastClass"); rowNumber++ ) {
             TableRow newRow = new TableRow(context);
 
             // Add lesson time to row
             TextView lessonTimeTextView = new TextView(context);
             lessonTimeTextView.setPadding(20, 5, 20, 5);
             if (rowNumber > 0) {
-                lessonTimeTextView.setText(lessonTimes[rowNumber-1]);
+                lessonTimeTextView.setText(this.lessonTimes[rowNumber-1]);
             }
             newRow.addView(lessonTimeTextView);
 
@@ -94,10 +104,29 @@ public class Timetable {
         }
     }
 
-    public JSONArray toJson() {
+    public void destroyTimetableLayout() {
+        this.timetableLayout.removeAllViews();
+        this.rows.clear();
+    }
+
+    public JSONObject timetableSettingsToJson() throws JSONException {
+        JSONObject timetableSettingsJson = new JSONObject();
+
+        Set<String> keys = this.timetableSettings.keySet();
+        for(String key : keys) {
+            timetableSettingsJson.put(key, timetableSettings.get(key));
+        }
+
+        Log.d("Timetable", "Timetable settings converted to json");
+        Log.d("Timetable", timetableSettingsJson.toString(4));
+
+        return timetableSettingsJson;
+    }
+
+    public JSONArray timetableDataToJson() {
         JSONArray timetable = new JSONArray();
 
-        for (int i = 0; i < timetableLayout.getChildCount(); i++) {
+        for (int i = 1; i < timetableLayout.getChildCount(); i++) {
             View child = timetableLayout.getChildAt(i);
             JSONArray timetableRow = new JSONArray();
 
@@ -114,47 +143,70 @@ public class Timetable {
         return timetable;
     }
 
+    public JSONObject toJson() throws JSONException {
+        JSONObject timetableJson = this.timetableSettingsToJson();
+        JSONArray timetableDataJson = this.timetableDataToJson();
+
+        timetableJson.put("data", timetableDataJson);
+        return timetableJson;
+    }
+
     public void save() {
         Log.i("Save", "Save process started");
         try {
             FileOutputStream fos = context.openFileOutput(saveFile, Context.MODE_PRIVATE);
             OutputStreamWriter osw = new OutputStreamWriter(fos, this.encoding);
 
-            JSONArray timetable = this.toJson();
+            JSONObject timetable = this.toJson();
             Log.i("Save", timetable.toString(4));
 
             osw.write(timetable.toString());
             osw.close();
+
             Toast.makeText(this.context, "Erfolgreich gespeichert", Toast.LENGTH_LONG).show();
             Log.i("Save", "Save process finished");
+
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
 
     public void loadTimetable() {
-        String timetableString = this.loadFromFile();
-        if ( timetableString != "" ) {
-            this.update(timetableString);
-        }
-    }
-
-    public void update(String timetableString) {
         try {
-            JSONArray timetableJSON = new JSONArray(timetableString);
-
-            for ( int i = 0; i < timetableJSON.length(); i++ ) {
-                JSONArray timetableRowJson = timetableJSON.getJSONArray(i);
-                TableRow timetableRow = rows.get(i);
-
-                for ( int j = 1; j < timetableRow.getChildCount(); j++ ) {
-                    String lesson = timetableRowJson.getString(j-1);
-                    EditText cell = (EditText) timetableRow.getChildAt(j);
-                    cell.setText(lesson);
-                }
+            String timetableString = this.loadFromFile();
+            if ( timetableString != "" ) {
+                this.update(timetableString);
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void update(String timetableString) throws JSONException {
+        JSONObject timetableJson = new JSONObject(timetableString);
+
+        for (Iterator<String> keyIterator = timetableJson.keys(); keyIterator.hasNext(); ) {
+            String key = keyIterator.next();
+            if (!key.equals("data")) {
+                this.timetableSettings.put(key, timetableJson.getInt(key));
+            }
+        }
+
+        this.destroyTimetableLayout();
+        this.buildTimetableLayout();
+
+        JSONArray timetableData = timetableJson.getJSONArray("data");
+
+        int hours = this.timetableSettings.get("lastClass") - this.timetableSettings.get("firstClass") + 1;
+        for ( int i = 1; i <= hours; i++ ) {
+            JSONArray timetableRowJson = timetableData.getJSONArray(i-1);
+            TableRow timetableRow = rows.get(i);
+
+            for ( int j = 1; j < timetableRow.getChildCount(); j++ ) {
+                String lesson = timetableRowJson.getString(j-1);
+                EditText cell = (EditText) timetableRow.getChildAt(j);
+                cell.setText(lesson);
+            }
         }
     }
 
