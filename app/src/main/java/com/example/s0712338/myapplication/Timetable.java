@@ -2,10 +2,13 @@ package com.example.s0712338.myapplication;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -86,6 +89,19 @@ public class Timetable {
                     newRow.addView(lessonTextEdit);
                     lessonTextEdit.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
                     lessonTextEdit.setGravity(Gravity.CENTER_HORIZONTAL);
+                    lessonTextEdit.setInputType(InputType.TYPE_CLASS_TEXT);
+                    lessonTextEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                        @Override
+                        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                            boolean handled = false;
+                            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                                Toast.makeText(context, "Gespeichert", Toast.LENGTH_LONG).show();
+                                save();
+                                handled = true;
+                            }
+                            return handled;
+                        }
+                    });
                 }
             }
             timetableLayout.addView(newRow);
