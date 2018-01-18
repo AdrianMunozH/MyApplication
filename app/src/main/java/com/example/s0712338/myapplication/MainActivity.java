@@ -129,19 +129,4 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("HashMap", settingsHashMap);
         this.startActivity(i);
     }
-
-    public void startLessonActivity( View view) {
-        // Intent intent = new Intent(this, LessonActivity.class);
-        // intent.putExtra("lesson", "text");
-        // this.startActivity(intent);
-    }
-
-    public void initTV(TextView textViewLesson) {
-        textViewLesson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startLessonActivity(view);
-            }
-        });
-    }
 }
