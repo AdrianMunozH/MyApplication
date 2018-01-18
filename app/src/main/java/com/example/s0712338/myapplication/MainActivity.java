@@ -43,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
             settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
         }
 
-        TimetableManager timetableManager = new TimetableManager(this,
+        this.timetableManager = new TimetableManager(this,
                 (TableLayout) findViewById(R.id.tableLayout), saveFile, settingsHashMap, username);
-        this.timetable = timetableManager.getMyTimetable();
 
-        // timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout),
-        //         this.saveFile, username);
+        if ( saveIntent.hasExtra("username") ) {
+            this.timetable = timetableManager.getTimetable(saveIntent.getStringExtra("username"));
+        } else {
+            this.timetable = timetableManager.getMyTimetable();
+        }
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             // save function here instead of button
             case R.id.save:
                 this.timetable.save();
+                this.timetableManager.save();
                 return true;
 
             // add share function - click button, share josn file in whatsapp
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     private void startListActivity() {
         Intent i = new Intent(this, ListActivity.class);
         i.putExtra("HashMap", settingsHashMap);
+        i.putExtra("allTimetables", this.timetableManager.allTimetables);
         this.startActivity(i);
     }
 

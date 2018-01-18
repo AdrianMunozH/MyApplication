@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,101 +15,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <TableLayout
-        android:layout_width="581dp"
-        android:layout_height="296dp"
+    <ListView
+        android:id="@+id/timetableListView"
+        android:layout_width="585dp"
+        android:layout_height="277dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="54dp"
-        android:visibility="visible"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
 
-        <TableRow
-            android:id="@+id/r1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/fileName"
-                android:layout_width="334dp"
-                android:layout_height="30dp"
-                android:text="@string/fileName"
-                android:textColor="@android:color/background_dark"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/authorName"
-                android:layout_width="246dp"
-                android:layout_height="30dp"
-                android:text="@string/authorName"
-                android:textColor="@android:color/background_dark"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/r2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/schedule1"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/schedule1"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/author1"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/author1"
-                android:textSize="18sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/r3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/schedule2"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/schedule2"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/author2"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/author2"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/r4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/schedule3"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/schedule3"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/author3"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/author3"
-                android:textSize="18sp" />
-        </TableRow>
-    </TableLayout>
+    </ListView>
 
 
 </android.support.constraint.ConstraintLayout>

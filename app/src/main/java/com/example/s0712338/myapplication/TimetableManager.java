@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class TimetableManager extends TimetableBase {
     public Context context;
@@ -38,8 +39,13 @@ public class TimetableManager extends TimetableBase {
         this.logTag = "TimetableManager";
     }
 
-    public void addTimetable(String file, Timetable timetable) {
-        Log.d(this.logTag, "add timetable");
+    public void addTimetable(Timetable timetable) {
+        HashMap<String, String> newTimetableEntry = new HashMap();
+
+        newTimetableEntry.put("username", timetable.username);
+        newTimetableEntry.put("deviceId", timetable.ownerId);
+
+        this.allTimetables.add(newTimetableEntry);
     }
 
     public void removeTimetable(String id) {
@@ -49,23 +55,34 @@ public class TimetableManager extends TimetableBase {
     // returns timetable of device owner; decides using unique id
     public Timetable getMyTimetable() {
         String myDeviceId = this.getUniqueUserId();
-        String file = this.getTimetableFilename(myDeviceId);
-        return new Timetable(this.context, this.timetableLayout, this.timetableSettings, file, this.username, myDeviceId);
+        try {
+            return this.getTimetable(myDeviceId);
+        } catch (NoSuchElementException e) {
+            Timetable timetable = new Timetable(this.context, this.timetableLayout, this.timetableSettings,
+                    this.getTimetableFilename(myDeviceId), this.username, myDeviceId);
+            this.addTimetable(timetable);
+            return timetable;
+        }
     }
 
-    /* public Timetable getTimetable(String id) {
-        return;
-    } */
+    public Timetable getTimetable(String searchValue) {
+        if ( this.allTimetables.size() > 0 ) {
+            for (HashMap<String, String> timetableEntry : this.allTimetables) {
+                if (timetableEntry.get("deviceId").equals(searchValue) || timetableEntry.get("username").equals(searchValue)) {
+                    String id = timetableEntry.get("deviceId");
+                    String username = timetableEntry.get("username");
+                    return new Timetable(this.context, this.timetableLayout, this.timetableSettings,
+                            this.getTimetableFilename(id), username, id);
+                }
+            }
+        }
+        throw new NoSuchElementException();
+    }
 
     public String getUniqueUserId() {
         return Settings.Secure.getString(this.context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
     }
-
-    /*public String[] getList() {
-
-
-    }*/
 
     public JSONArray toJson() {
         JSONArray json = new JSONArray();
@@ -108,6 +125,7 @@ public class TimetableManager extends TimetableBase {
                     HashMap<String, String>  timetableEntry = new HashMap<>();
                     timetableEntry.put("username", timetableEntryJSON.getString("username"));
                     timetableEntry.put("deviceId", timetableEntryJSON.getString("deviceId"));
+                    this.allTimetables.add(timetableEntry);
                 }
             }
         } catch (JSONException e) {

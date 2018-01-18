@@ -3,15 +3,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class ListActivity extends AppCompatActivity {
 
     HashMap<String, Integer> settingsHashMap = new HashMap<String, Integer>();
+    public ArrayList<HashMap<String, String>> allTimetables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +32,26 @@ public class ListActivity extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        settingsHashMap = (HashMap<String, Integer>) i.getSerializableExtra("HashMap");
+        this.settingsHashMap = (HashMap<String, Integer>) i.getSerializableExtra("HashMap");
+        this.allTimetables = (ArrayList<HashMap<String, String>>) i.getSerializableExtra("allTimetables");
+
+        ArrayList<String> timetableUsernames = new ArrayList();
+        for (HashMap<String, String> timetable : allTimetables) {
+            timetableUsernames.add(timetable.get("username"));
+        }
+
+        ListView list = findViewById(R.id.timetableListView);
+        ListAdapter foodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, timetableUsernames);
+        list.setAdapter(foodAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = String.valueOf(parent.getItemAtPosition((int) id));
+                Log.d("List", "Sending intent for timetable of " + value);
+                startMainActivity(value);
+            }
+        });
     }
 
     @Override
@@ -37,7 +65,7 @@ public class ListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.my_schedule:
-                startMainActivity();
+                startMainActivity("");
                 return true;
 
             case R.id.schedule_settings:
@@ -71,9 +99,12 @@ public class ListActivity extends AppCompatActivity {
         this.startActivity(i);
     }
 
-    private void startMainActivity() {
+    private void startMainActivity(String username) {
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("HashMap", settingsHashMap);
+        if ( !username.equals("") ) {
+            i.putExtra("username", username);
+        }
         this.startActivity(i);
     }
 }

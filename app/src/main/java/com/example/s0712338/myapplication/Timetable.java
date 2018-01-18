@@ -21,6 +21,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,7 +51,7 @@ public class Timetable extends TimetableBase {
                      String saveFile, String username, String deviceId) {
         this.context = context;
         this.timetableLayout = timetableLayout;
-        this.file = saveFile;
+        super.file = this.file = saveFile;
         this.rows = new ArrayList<TableRow>();
         this.timetableSettings = settings;
         this.username = username;
