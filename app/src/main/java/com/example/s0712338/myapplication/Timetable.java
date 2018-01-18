@@ -1,5 +1,6 @@
 package com.example.s0712338.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.provider.Settings;
@@ -20,12 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,13 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class Timetable {
+public class Timetable extends TimetableBase {
 
     public TableLayout timetableLayout;
     public List<TableRow> rows;
-    public String saveFile;
-    public String encoding;
-    public Context context;
     public int timetableRowCount;
     public int backgroundColor;
     public String[] days ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
@@ -55,7 +47,7 @@ public class Timetable {
                      String saveFile, String username, String deviceId) {
         this.context = context;
         this.timetableLayout = timetableLayout;
-        this.saveFile = saveFile;
+        this.file = saveFile;
         this.rows = new ArrayList<TableRow>();
         this.timetableSettings = settings;
         this.username = username;
@@ -65,7 +57,7 @@ public class Timetable {
         this.backgroundColor = Color.LTGRAY;
 
         this.ownerId = deviceId;
-        this.loadTimetable();
+        this.load();
         if ( this.ownerId.equals("") ) {
             this.ownerId = this.getUniqueUserId();
         }
@@ -170,39 +162,35 @@ public class Timetable {
         return timetable;
     }
 
-    public JSONObject toJson() throws JSONException {
-        JSONObject timetableJson = this.timetableSettingsToJson();
-        JSONArray timetableDataJson = this.timetableDataToJson();
+    public JSONObject toJson() {
+        JSONObject timetableJson = new JSONObject();
+        try {
+            timetableJson = this.timetableSettingsToJson();
 
-        timetableJson.put("identifier", this.ownerId);
-        timetableJson.put("username", this.username);
+            timetableJson.put("identifier", this.ownerId);
+            timetableJson.put("username", this.username);
 
-        timetableJson.put("data", timetableDataJson);
+            JSONArray timetableDataJson = this.timetableDataToJson();
+            timetableJson.put("data", timetableDataJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return timetableJson;
     }
 
     public void save() {
-        Log.i("Save", "Save process started");
-        Log.i("Save", "saving to " + this.saveFile);
         try {
-            FileOutputStream fos = context.openFileOutput(saveFile, Context.MODE_PRIVATE);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, this.encoding);
+            Log.i("Save", "Save process started");
+            Log.i("Save", "saving to " + this.file);
 
-            JSONObject timetable = this.toJson();
-            Log.i("Save", timetable.toString(4));
-
-            osw.write(timetable.toString());
-            osw.close();
-
-            Toast.makeText(this.context, "Erfolgreich gespeichert", Toast.LENGTH_LONG).show();
-            Log.i("Save", "Save process finished");
-
-        } catch (IOException | JSONException e) {
+            JSONObject timetableJson = this.toJson();
+            this.writeToFile(timetableJson.toString(4));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadTimetable() {
+    public void load() {
         try {
             String timetableString = this.loadFromFile();
             if ( timetableString != "" ) {
@@ -250,23 +238,6 @@ public class Timetable {
         }
     }
 
-    public String loadFromFile() {
-        FileInputStream fis;
-        StringBuilder sb = new StringBuilder();
-        try {
-            fis = context.openFileInput(saveFile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis, this.encoding));
-            String line;
-            while(( line = br.readLine()) != null ) {
-                sb.append( line );
-                sb.append( '\n' );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
-
     public void calculateLessonTimes() {
         Log.d("InitLessons", "start calculating");
 
@@ -292,30 +263,9 @@ public class Timetable {
         Log.d("InitLessons", Arrays.toString(lessonTimes));
     }
 
+    @SuppressLint("HardwareIds")
     public String getUniqueUserId() {
         return Settings.Secure.getString(this.context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-    }
-
-    public void setSettings(HashMap<String, Integer> settings) {
-        this.timetableSettings = settings;
-    }
-
-    public HashMap<String, Integer> getSettings() {
-        return this.timetableSettings;
-    }
-
-    public void print() {
-        try {
-            String timetableString = this.loadFromFile();
-
-            JSONArray timetable = new JSONArray(timetableString);
-            for ( int i = 0; i < timetable.length(); i++ ) {
-                JSONArray row = timetable.getJSONArray(i);
-                Log.i("SAVE", row.toString());
-            }
-        } catch (JSONException  e) {
-            e.printStackTrace();
-        }
     }
 }

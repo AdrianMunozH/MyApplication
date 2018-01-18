@@ -11,38 +11,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TimetableManager {
+public class TimetableManager extends TimetableBase {
     public Context context;
-    public String configFile;
-    public Timetable currentTimetable;
+    public String file;
     public TableLayout timetableLayout;
     public HashMap<String, Integer> timetableSettings;
     public String username;
 
     public ArrayList<HashMap<String, String>> allTimetables = new ArrayList();
 
-    public String encoding;
     public String logTag;
 
     public TimetableManager(Context context, TableLayout timetableLayout,
                             String configFile, HashMap<String, Integer> timetableSettings,
                             String username) {
-        this.context = context;
+        super.context = this.context = context;
+        super.file = this.file = configFile;
         this.timetableLayout = timetableLayout;
-        this.configFile = configFile;
         this.timetableSettings = timetableSettings;
         this.username = username;
 
-        this.encoding = "UTF-8";
         this.load();
         this.logTag = "TimetableManager";
     }
@@ -94,21 +85,14 @@ public class TimetableManager {
     }
 
     public void save() {
-        Log.i("Save", "Save process started");
         try {
-            FileOutputStream fos = context.openFileOutput(this.configFile, Context.MODE_PRIVATE);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, this.encoding);
+            Log.i("Save", "Save process started");
 
-            JSONArray timetable = this.toJson();
-            Log.i("Save", timetable.toString(4));
-
-            osw.write(timetable.toString());
-            osw.close();
+            JSONArray timetableManagerJson = this.toJson();
+            this.writeToFile(timetableManagerJson.toString(4));
 
             Toast.makeText(this.context, "Erfolgreich gespeichert", Toast.LENGTH_LONG).show();
-            Log.i("Save", "Save process finished");
-
-        } catch (IOException | JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -129,23 +113,6 @@ public class TimetableManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public String loadFromFile() {
-        FileInputStream fis;
-        StringBuilder sb = new StringBuilder();
-        try {
-            fis = this.context.openFileInput(this.configFile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis, this.encoding));
-            String line;
-            while(( line = br.readLine()) != null ) {
-                sb.append( line );
-                sb.append( '\n' );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
     }
 
     public String getTimetableFilename(String deviceId) {

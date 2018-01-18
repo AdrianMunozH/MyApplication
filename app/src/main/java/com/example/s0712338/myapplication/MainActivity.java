@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             // add share function - click button, share josn file in whatsapp
             case R.id.share:
-                this.timetable.loadTimetable();
+                this.timetable.load();
                 return true;
         }
         return (super.onOptionsItemSelected(item));
