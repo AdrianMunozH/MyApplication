@@ -45,17 +45,20 @@ public class Timetable {
     public String[] days ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
     public HashMap<String, Integer> timetableSettings;
     public String ownerId = "";
+    public String username = "";
 
     public String[] lessonTimes = new String[10];
     public Integer[] lessonHours = new Integer[10];
     public Integer[] lessonMins = new Integer[10];
 
-    public Timetable(Context context, TableLayout timetableLayout, String saveFile, HashMap<String, Integer> timetableSettings) {
+    public Timetable(Context context, TableLayout timetableLayout, String saveFile,
+                     HashMap<String, Integer> timetableSettings, String username) {
         this.context = context;
         this.timetableLayout = timetableLayout;
         this.saveFile = saveFile;
         this.rows = new ArrayList<TableRow>();
         this.timetableSettings = timetableSettings;
+        this.username = username;
 
         this.encoding = "UTF-8";
         this.timetableRowCount = 5;
@@ -212,7 +215,7 @@ public class Timetable {
 
         for (Iterator<String> keyIterator = timetableJson.keys(); keyIterator.hasNext(); ) {
             String key = keyIterator.next();
-            if (!key.equals("data") && !key.equals("identifier")) {
+            if (!key.equals("data") && !key.equals("identifier") && !key.equals("username")) {
                 this.timetableSettings.put(key, timetableJson.getInt(key));
             }
         }
@@ -222,6 +225,9 @@ public class Timetable {
 
         if (timetableJson.has("identifier")) {
             this.ownerId = timetableJson.get("identifier").toString();
+        }
+        if (timetableJson.has("username")) {
+            this.username = timetableJson.get("username").toString();
         }
 
         JSONArray timetableData = timetableJson.getJSONArray("data");

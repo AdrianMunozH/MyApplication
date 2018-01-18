@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String saveFile = "timetable.json";
 
+    public String username = "Nick Lehmann"; // TODO: User should be able to edit this
     HashMap<String, Integer> settingsHashMap = new HashMap<>();
 
     @Override
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout), this.saveFile, settingsHashMap);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //initButtons();
 
         this.timetable.loadTimetable();
+        timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout), this.saveFile, settingsHashMap, username);
     }
 
     @Override
