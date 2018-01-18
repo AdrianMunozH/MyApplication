@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TimetableManager timetableManager = null;
     private Timetable timetable = null;
 
     public String saveFile = "timetable.json";
@@ -29,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i("DEBUG", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         Intent saveIntent = getIntent();
 
@@ -47,10 +44,15 @@ public class MainActivity extends AppCompatActivity {
             settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
         }
 
-        //initButtons();
+        TimetableManager timetableManager = new TimetableManager(this,
+                (TableLayout) findViewById(R.id.tableLayout), saveFile, settingsHashMap, username);
+        this.timetable = timetableManager.getMyTimetable();
 
-        this.timetable.loadTimetable();
-        timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout), this.saveFile, settingsHashMap, username);
+        // timetable = new Timetable(this, (TableLayout) findViewById(R.id.tableLayout),
+        //         this.saveFile, username);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     @Override

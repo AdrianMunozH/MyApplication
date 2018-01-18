@@ -51,19 +51,20 @@ public class Timetable {
     public Integer[] lessonHours = new Integer[10];
     public Integer[] lessonMins = new Integer[10];
 
-    public Timetable(Context context, TableLayout timetableLayout, String saveFile,
-                     HashMap<String, Integer> timetableSettings, String username) {
+    public Timetable(Context context, TableLayout timetableLayout, HashMap<String, Integer> settings,
+                     String saveFile, String username, String deviceId) {
         this.context = context;
         this.timetableLayout = timetableLayout;
         this.saveFile = saveFile;
         this.rows = new ArrayList<TableRow>();
-        this.timetableSettings = timetableSettings;
+        this.timetableSettings = settings;
         this.username = username;
 
         this.encoding = "UTF-8";
         this.timetableRowCount = 5;
         this.backgroundColor = Color.LTGRAY;
 
+        this.ownerId = deviceId;
         this.loadTimetable();
         if ( this.ownerId.equals("") ) {
             this.ownerId = this.getUniqueUserId();
@@ -174,6 +175,7 @@ public class Timetable {
         JSONArray timetableDataJson = this.timetableDataToJson();
 
         timetableJson.put("identifier", this.ownerId);
+        timetableJson.put("username", this.username);
 
         timetableJson.put("data", timetableDataJson);
         return timetableJson;
@@ -181,6 +183,7 @@ public class Timetable {
 
     public void save() {
         Log.i("Save", "Save process started");
+        Log.i("Save", "saving to " + this.saveFile);
         try {
             FileOutputStream fos = context.openFileOutput(saveFile, Context.MODE_PRIVATE);
             OutputStreamWriter osw = new OutputStreamWriter(fos, this.encoding);
@@ -204,6 +207,8 @@ public class Timetable {
             String timetableString = this.loadFromFile();
             if ( timetableString != "" ) {
                 this.update(timetableString);
+            } else {
+                this.buildTimetableLayout();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -290,6 +295,14 @@ public class Timetable {
     public String getUniqueUserId() {
         return Settings.Secure.getString(this.context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+    }
+
+    public void setSettings(HashMap<String, Integer> settings) {
+        this.timetableSettings = settings;
+    }
+
+    public HashMap<String, Integer> getSettings() {
+        return this.timetableSettings;
     }
 
     public void print() {
