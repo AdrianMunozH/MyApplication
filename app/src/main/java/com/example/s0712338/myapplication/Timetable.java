@@ -2,6 +2,7 @@ package com.example.s0712338.myapplication;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,6 +44,7 @@ public class Timetable {
     public int backgroundColor;
     public String[] days ={"Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
     public HashMap<String, Integer> timetableSettings;
+    public String ownerId = "";
 
     public String[] lessonTimes = new String[10];
     public Integer[] lessonHours = new Integer[10];
@@ -58,6 +60,11 @@ public class Timetable {
         this.encoding = "UTF-8";
         this.timetableRowCount = 5;
         this.backgroundColor = Color.LTGRAY;
+
+        this.loadTimetable();
+        if ( this.ownerId.equals("") ) {
+            this.ownerId = this.getUniqueUserId();
+        }
     }
 
     public void buildTimetableLayout() {
@@ -163,6 +170,8 @@ public class Timetable {
         JSONObject timetableJson = this.timetableSettingsToJson();
         JSONArray timetableDataJson = this.timetableDataToJson();
 
+        timetableJson.put("identifier", this.ownerId);
+
         timetableJson.put("data", timetableDataJson);
         return timetableJson;
     }
@@ -203,13 +212,17 @@ public class Timetable {
 
         for (Iterator<String> keyIterator = timetableJson.keys(); keyIterator.hasNext(); ) {
             String key = keyIterator.next();
-            if (!key.equals("data")) {
+            if (!key.equals("data") && !key.equals("identifier")) {
                 this.timetableSettings.put(key, timetableJson.getInt(key));
             }
         }
 
         this.destroyTimetableLayout();
         this.buildTimetableLayout();
+
+        if (timetableJson.has("identifier")) {
+            this.ownerId = timetableJson.get("identifier").toString();
+        }
 
         JSONArray timetableData = timetableJson.getJSONArray("data");
 
@@ -266,6 +279,11 @@ public class Timetable {
         }
 
         Log.d("InitLessons", Arrays.toString(lessonTimes));
+    }
+
+    public String getUniqueUserId() {
+        return Settings.Secure.getString(this.context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
     }
 
     public void print() {
