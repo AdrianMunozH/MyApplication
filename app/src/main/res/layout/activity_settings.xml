@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,186 +9,146 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginBottom="4dp"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintBottom_toTopOf="@+id/setting1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <TextView
-        android:id="@+id/setting1"
-        android:layout_width="372dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
-        android:text="@string/setting1"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintBottom_toTopOf="@+id/firstClass"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
     <TextView
-        android:id="@+id/setting2"
-        android:layout_width="43dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="17dp"
-        android:text="@string/setting2"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting1" />
+        android:id="@+id/firstClassLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/firstClass"
+        app:layout_constraintStart_toStartOf="@+id/lastClassLabel"
+        tools:text="Erste Stunde" />
 
     <EditText
         android:id="@+id/firstClass"
-        android:layout_width="47dp"
+        android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="number"
         android:textColor="@color/colorAccent"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/setting2"
-        app:layout_constraintTop_toBottomOf="@+id/setting1" />
+        app:layout_constraintBottom_toBottomOf="@+id/firstClassLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/firstClassLabel" />
 
     <TextView
-        android:id="@+id/setting3"
-        android:layout_width="43dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="17dp"
-        android:text="@string/setting3"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/firstClass"
-        app:layout_constraintTop_toBottomOf="@+id/setting1" />
+        android:id="@+id/lastClassLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lastClass"
+        app:layout_constraintStart_toStartOf="@+id/breakLengthLabel"
+        tools:text="Letzte Stunde" />
 
     <EditText
         android:id="@+id/lastClass"
-        android:layout_width="47dp"
+        android:layout_width="215dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="number"
         android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toEndOf="@+id/setting3"
-        app:layout_constraintTop_toBottomOf="@+id/setting1" />
-
-    <TextView
-        android:id="@+id/setting4"
-        android:layout_width="201dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/setting4"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstClass" />
 
-    <EditText
-        android:id="@+id/classLength"
-        android:layout_width="43dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting4" />
-
     <TextView
-        android:id="@+id/setting5"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/setting5"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/breakLength"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toEndOf="@+id/classLength"
-        app:layout_constraintTop_toBottomOf="@+id/setting4" />
-
-    <TextView
-        android:id="@+id/setting6"
-        android:layout_width="201dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="112dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/setting6"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/setting4"
-        app:layout_constraintTop_toBottomOf="@+id/lastClass" />
+        android:id="@+id/breakLengthLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/breakLength"
+        app:layout_constraintStart_toStartOf="@+id/classLengthLabel"
+        tools:text="Pausenlänge" />
 
     <EditText
         android:id="@+id/breakLength"
-        android:layout_width="43dp"
         android:layout_height="42dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="number"
         android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toStartOf="@+id/setting7"
-        app:layout_constraintTop_toBottomOf="@+id/setting6" />
-
-    <TextView
-        android:id="@+id/setting7"
-        android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="200dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/setting7"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting6" />
+        app:layout_constraintTop_toBottomOf="@+id/lastClass" />
 
     <TextView
-        android:id="@+id/setting8"
-        android:layout_width="246dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
-        android:text="@string/setting8"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
+        android:id="@+id/classLengthLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/classLength"
+        app:layout_constraintStart_toStartOf="@+id/beginTime"
+        tools:text="Stundenlänge" />
+
+    <EditText
+        android:id="@+id/classLength"
+        android:layout_height="42dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakLength" />
+
+    <TextView
+        android:id="@+id/beginTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/timePicker"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting5" />
+        app:layout_constraintTop_toTopOf="@+id/timePicker"
+        tools:text="Beginn" />
 
     <TimePicker
         android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="66dp"
+        android:layout_width="213dp"
+        android:layout_height="63dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         android:timePickerMode="spinner"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting8" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/classLength" />
 
     <Button
         android:id="@+id/btnSettings"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="88dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="28dp"
-        android:layout_marginStart="300dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/applyBtn"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
