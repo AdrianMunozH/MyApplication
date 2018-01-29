@@ -24,9 +24,9 @@ import java.util.Properties;
 
 public class MailSender extends javax.mail.Authenticator {
 
-    private String mailhost = "smtp.gmail.com";
-    private String user;
-    private String password;
+    private String mailhost     = "smtp.gmail.com";
+    private String user         = "tudresdenstundenplan@gmail.com";
+    private String password     = "PQB3yZNHAzUD6mIOa5suxV9e8UeNx7";
     private Session session;
 
     private Multipart _multipart = new MimeMultipart();
@@ -35,10 +35,7 @@ public class MailSender extends javax.mail.Authenticator {
         Security.addProvider(new JSSEProvider());
     }
 
-    public MailSender(String user, String password) {
-
-        this.user = "tudresdenstundenplan@gmail.com";
-        this.password = "PQB3yZNHAzUD6mIOa5suxV9e8UeNx7";
+    public MailSender() {
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -92,7 +89,7 @@ public class MailSender extends javax.mail.Authenticator {
         BodyPart messageBodyPart = new MimeBodyPart();
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName("download image");
+        messageBodyPart.setFileName("timetable.json");
 
         _multipart.addBodyPart(messageBodyPart);
     }

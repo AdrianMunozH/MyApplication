@@ -21,10 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -71,8 +67,10 @@ public class Timetable extends TimetableBase {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    MailSender sender = new MailSender("tudresdenstundenplan@gmail.com", "Z{&${Q&g-w%8cTo?a}Qhg!6:IN8\\e=");
-                    sender.sendMail("Test mail", "This mail has been sent from android app along with attachment",
+                    String filePath = context.getFilesDir().getAbsolutePath() + "/" + Timetable.super.file;
+                    MailSender sender = new MailSender();
+                    sender.addAttachment(filePath);
+                    sender.sendMail("Timetable update", "",
                             "tudresdenstundenplan@gmail.com",
                             "tudresdenstundenplan@gmail.com");
                 } catch (Exception e) {
