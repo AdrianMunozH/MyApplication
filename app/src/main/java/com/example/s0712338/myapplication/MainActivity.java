@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
             // add share function - click button, share josn file in whatsapp
             case R.id.share:
-                this.timetable.load();
+                //this.timetable.load();
+                this.timetable.sendMail();
                 return true;
         }
         return (super.onOptionsItemSelected(item));

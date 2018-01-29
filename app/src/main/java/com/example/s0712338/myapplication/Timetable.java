@@ -67,6 +67,21 @@ public class Timetable extends TimetableBase {
         }
     }
 
+    public void sendMail() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    MailSender sender = new MailSender("tudresdenstundenplan@gmail.com", "Z{&${Q&g-w%8cTo?a}Qhg!6:IN8\\e=");
+                    sender.sendMail("Test mail", "This mail has been sent from android app along with attachment",
+                            "tudresdenstundenplan@gmail.com",
+                            "tudresdenstundenplan@gmail.com");
+                } catch (Exception e) {
+                    Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();
+                }
+            }
+        }).start();
+    }
+
     public void buildTimetableLayout() {
         this.destroyTimetableLayout();
         this.calculateLessonTimes();
