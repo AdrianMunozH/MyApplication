@@ -45,7 +45,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:inputType="time"
+                android:inputType="text"
                 app:layout_constraintBottom_toTopOf="@+id/firstClass"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                 android:id="@+id/firstClassLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Erste Stunde"
                 app:layout_constraintBaseline_toBaselineOf="@+id/firstClass"
                 app:layout_constraintStart_toStartOf="@+id/lastClassLabel"
                 tools:text="Erste Stunde" />
@@ -76,7 +76,7 @@
                 android:id="@+id/lastClassLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Letzte Stunde"
                 app:layout_constraintBaseline_toBaselineOf="@+id/lastClass"
                 app:layout_constraintStart_toStartOf="@+id/breakLengthLabel"
                 tools:text="Letzte Stunde" />
@@ -97,7 +97,7 @@
                 android:id="@+id/breakLengthLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Pausenlänge"
                 app:layout_constraintBaseline_toBaselineOf="@+id/breakLength"
                 app:layout_constraintStart_toStartOf="@+id/classLengthLabel"
                 tools:text="Pausenlänge" />
@@ -118,7 +118,7 @@
                 android:id="@+id/classLengthLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Stundenlänge"
                 app:layout_constraintBaseline_toBaselineOf="@+id/classLength"
                 app:layout_constraintStart_toStartOf="@+id/beginTime"
                 tools:text="Stundenlänge" />
@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:text="TextView"
+                android:text="Beginn"
                 app:layout_constraintBottom_toBottomOf="@+id/timePicker"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/timePicker"
@@ -165,13 +165,34 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/applyBtn"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telegramSyncSwitch" />
+
+            <Switch
+                android:id="@+id/telegramSyncSwitch"
+                android:layout_width="97dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Sync"
+                android:textOff="Sync deaktiviert"
+                android:textOn="Sync aktiviert"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+            <TextView
+                android:id="@+id/syncRegisterCommand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/telegramSyncSwitch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/telegramSyncSwitch" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

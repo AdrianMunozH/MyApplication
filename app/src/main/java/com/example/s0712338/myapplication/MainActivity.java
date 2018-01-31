@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String saveFile = "timetable.json";
 
-    public String username = "Nick Lehmann"; // TODO: User should be able to edit this
+    public String username = "Max Mustermann";
     HashMap<String, Integer> settingsHashMap = new HashMap<>();
 
     @Override
@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
         Intent saveIntent = getIntent();
 
         if (saveIntent.getExtras() == null) {
+            // set default settings
             settingsHashMap.put("firstClass", 1);
             settingsHashMap.put("lastClass", 5);
             settingsHashMap.put("length", 90);
             settingsHashMap.put("break", 20);
             settingsHashMap.put("startHour", 7);
             settingsHashMap.put("startMin", 30);
+            settingsHashMap.put("sync", 0);
         } else {
             settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
         }
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             this.timetable = timetableManager.getMyTimetable();
         }
+
+        username = this.timetable.username;
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -87,29 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
             // add share function - click button, share josn file in whatsapp
             case R.id.share:
-                this.timetable.load();
                 return true;
         }
         return (super.onOptionsItemSelected(item));
     }
-
-    /* delete buttons (move to appbar), menuButton - was ist Printtimetable ???
-    public void initButtons() {
-        Log.i("Debug", "initButtons");
-        findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timetable.save();
-            }
-        });
-
-        findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timetable.print();
-            }
-        });
-    } */
 
     private void startListActivity() {
         Intent i = new Intent(this, ListActivity.class);
@@ -121,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private void startSettingsActivity() {
         Intent i = new Intent(this, SettingsActivity.class);
         i.putExtra("HashMap", settingsHashMap);
+        i.putExtra("username", this.username);
         this.startActivity(i);
     }
 

@@ -21,10 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -192,6 +188,16 @@ public class Timetable extends TimetableBase {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        if (this.timetableSettings.get("sync") > 0) {
+            this.syncWithTelegramBot();
+        }
+    }
+
+    public void syncWithTelegramBot() {
+        new Thread(
+                new MailSendingThread(context, this.file)
+        ).start();
     }
 
     public void load() {
