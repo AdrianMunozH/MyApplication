@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private EditText usernameTextEdit;
     private EditText first;
     private EditText last;
     private EditText cLength;
@@ -43,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         settingsHashMap = (HashMap<String, Integer>) i.getSerializableExtra("HashMap");
 
+        usernameTextEdit = (EditText) findViewById(R.id.username);
         first = (EditText) findViewById(R.id.firstClass);
         last = (EditText) findViewById(R.id.lastClass);
         cLength = (EditText) findViewById(R.id.classLength);
@@ -52,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
         syncSwitch = (Switch) findViewById(R.id.telegramSyncSwitch);
         registerCommand = (TextView) findViewById(R.id.syncRegisterCommand);
 
+        usernameTextEdit.setText(i.getStringExtra("username"));
         first.setText(settingsHashMap.get("firstClass").toString());
         last.setText(settingsHashMap.get("lastClass").toString());
         cLength.setText(settingsHashMap.get("length").toString());
@@ -118,6 +121,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void applySettings(){
+        String new_username = usernameTextEdit.getText().toString();
+
         settingsHashMap.put("firstClass",Integer.parseInt(first.getText().toString()));
         settingsHashMap.put("lastClass",Integer.parseInt(last.getText().toString()));
         settingsHashMap.put("length",Integer.parseInt(cLength.getText().toString()));
@@ -133,6 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Intent saveIntent = new Intent(this, MainActivity.class);
         saveIntent.putExtra("HashMap", settingsHashMap);
+        saveIntent.putExtra("username", new_username);
         this.startActivity(saveIntent);
     }
 

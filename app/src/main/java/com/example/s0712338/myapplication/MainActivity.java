@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String saveFile = "timetable.json";
 
-    public String username = "Nick Lehmann"; // TODO: User should be able to edit this
+    public String username = "Max Mustermann";
     HashMap<String, Integer> settingsHashMap = new HashMap<>();
 
     @Override
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     private void startSettingsActivity() {
         Intent i = new Intent(this, SettingsActivity.class);
         i.putExtra("HashMap", settingsHashMap);
+        i.putExtra("username", this.username);
         this.startActivity(i);
     }
 
