@@ -87,30 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
             // add share function - click button, share josn file in whatsapp
             case R.id.share:
-                //this.timetable.load();
-                this.timetable.sendMail();
                 return true;
         }
         return (super.onOptionsItemSelected(item));
     }
-
-    /* delete buttons (move to appbar), menuButton - was ist Printtimetable ???
-    public void initButtons() {
-        Log.i("Debug", "initButtons");
-        findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timetable.save();
-            }
-        });
-
-        findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timetable.print();
-            }
-        });
-    } */
 
     private void startListActivity() {
         Intent i = new Intent(this, ListActivity.class);
