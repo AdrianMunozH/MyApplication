@@ -189,7 +189,9 @@ public class Timetable extends TimetableBase {
             e.printStackTrace();
         }
 
-        this.syncWithTelegramBot();
+        if (this.timetableSettings.get("sync") > 0) {
+            this.syncWithTelegramBot();
+        }
     }
 
     public void syncWithTelegramBot() {
