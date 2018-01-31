@@ -1,14 +1,19 @@
 package com.example.s0712338.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.HashMap;
@@ -20,7 +25,9 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText cLength;
     private EditText bLength;
     private TimePicker mTimePicker;
+    private Switch syncSwitch;
     private Button btnSet;
+    private TextView registerCommand;
 
     HashMap<String, Integer> settingsHashMap = new HashMap<String, Integer>();
 
@@ -42,6 +49,8 @@ public class SettingsActivity extends AppCompatActivity {
         bLength = (EditText) findViewById(R.id.breakLength);
         mTimePicker = (TimePicker) findViewById(R.id.timePicker);
         mTimePicker.setIs24HourView(true);
+        syncSwitch = (Switch) findViewById(R.id.telegramSyncSwitch);
+        registerCommand = (TextView) findViewById(R.id.syncRegisterCommand);
 
         first.setText(settingsHashMap.get("firstClass").toString());
         last.setText(settingsHashMap.get("lastClass").toString());
@@ -49,6 +58,26 @@ public class SettingsActivity extends AppCompatActivity {
         bLength.setText(settingsHashMap.get("break").toString());
         mTimePicker.setCurrentHour(settingsHashMap.get("startHour"));
         mTimePicker.setCurrentMinute(settingsHashMap.get("startMin"));
+        if (settingsHashMap.get("sync") > 0) {
+            syncSwitch.setChecked(true);
+        } else {
+            syncSwitch.setChecked(false);
+        }
+
+        syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("HardwareIds")
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    String id = Settings.Secure.getString(getBaseContext().getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
+                    String CommandString = "/register " + id;
+                    registerCommand.setText(CommandString);
+                } else {
+                    registerCommand.setText("");
+                }
+            }
+        });
 
         InitializeActivity();
     }
@@ -95,6 +124,12 @@ public class SettingsActivity extends AppCompatActivity {
         settingsHashMap.put("break",Integer.parseInt(bLength.getText().toString()));
         settingsHashMap.put("startHour",mTimePicker.getCurrentHour());
         settingsHashMap.put("startMin",mTimePicker.getCurrentMinute());
+
+        if (syncSwitch.isChecked()) {
+            settingsHashMap.put("sync", 1);
+        } else {
+            settingsHashMap.put("sync", 0);
+        }
 
         Intent saveIntent = new Intent(this, MainActivity.class);
         saveIntent.putExtra("HashMap", settingsHashMap);

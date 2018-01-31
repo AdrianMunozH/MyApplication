@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
         Intent saveIntent = getIntent();
 
         if (saveIntent.getExtras() == null) {
+            // set default settings
             settingsHashMap.put("firstClass", 1);
             settingsHashMap.put("lastClass", 5);
             settingsHashMap.put("length", 90);
             settingsHashMap.put("break", 20);
             settingsHashMap.put("startHour", 7);
             settingsHashMap.put("startMin", 30);
+            settingsHashMap.put("sync", 0);
         } else {
             settingsHashMap = (HashMap<String, Integer>) saveIntent.getSerializableExtra("HashMap");
         }
