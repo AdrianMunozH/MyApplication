@@ -1,6 +1,8 @@
 EMI Projekt
 ===========
 
+Um die Synchronisation mit Telegram zu nutzen, muss der entsprechende [Bot](https://github.com/nick-lehmann/TUDresdenStundenplanBot) gestartet werden.
+
 TODO:
 - [X] Dynamisches Hinzufügen von Zeilen
 - [X] App-Bar (Buttons für Settings und Share)
