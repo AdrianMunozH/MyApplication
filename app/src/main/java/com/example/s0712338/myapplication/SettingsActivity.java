@@ -63,22 +63,17 @@ public class SettingsActivity extends AppCompatActivity {
         mTimePicker.setCurrentMinute(settingsHashMap.get("startMin"));
         if (settingsHashMap.get("sync") > 0) {
             syncSwitch.setChecked(true);
+            showRegisterCommand(true);
         } else {
             syncSwitch.setChecked(false);
+            showRegisterCommand(false);
         }
 
         syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @SuppressLint("HardwareIds")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    String id = Settings.Secure.getString(getBaseContext().getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
-                    String CommandString = "/register " + id;
-                    registerCommand.setText(CommandString);
-                } else {
-                    registerCommand.setText("");
-                }
+                showRegisterCommand(isChecked);
             }
         });
 
@@ -140,6 +135,18 @@ public class SettingsActivity extends AppCompatActivity {
         saveIntent.putExtra("HashMap", settingsHashMap);
         saveIntent.putExtra("username", new_username);
         this.startActivity(saveIntent);
+    }
+
+    @SuppressLint("HardwareIds")
+    private void showRegisterCommand(Boolean show) {
+        if (show) {
+            String id = Settings.Secure.getString(getBaseContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            String CommandString = "/register " + id;
+            registerCommand.setText(CommandString);
+        } else {
+            registerCommand.setText("");
+        }
     }
 
     private void startListActivity() {

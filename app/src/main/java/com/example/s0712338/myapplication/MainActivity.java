@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             this.timetable = timetableManager.getMyTimetable();
         }
 
+        username = this.timetable.username;
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
     }
