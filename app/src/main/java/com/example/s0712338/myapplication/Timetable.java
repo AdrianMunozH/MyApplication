@@ -63,23 +63,6 @@ public class Timetable extends TimetableBase {
         }
     }
 
-    public void sendMail() {
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    String filePath = context.getFilesDir().getAbsolutePath() + "/" + Timetable.super.file;
-                    MailSender sender = new MailSender();
-                    sender.addAttachment(filePath);
-                    sender.sendMail("Timetable update", "",
-                            "tudresdenstundenplan@gmail.com",
-                            "tudresdenstundenplan@gmail.com");
-                } catch (Exception e) {
-                    Toast.makeText(context,"Error",Toast.LENGTH_LONG).show();
-                }
-            }
-        }).start();
-    }
-
     public void buildTimetableLayout() {
         this.destroyTimetableLayout();
         this.calculateLessonTimes();
@@ -205,6 +188,14 @@ public class Timetable extends TimetableBase {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        this.syncWithTelegramBot();
+    }
+
+    public void syncWithTelegramBot() {
+        new Thread(
+                new MailSendingThread(context, this.file)
+        ).start();
     }
 
     public void load() {
