@@ -34,6 +34,7 @@ public abstract class TimetableBase {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return "";
         }
         return sb.toString();
     }
